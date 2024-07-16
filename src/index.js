@@ -5,6 +5,8 @@ import app from "./app/app.js";
 dotenv.config();
 const PORT = Number(process.env.PORT);
 
+const bcrypt = Number(process.env.BCRYPT);
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}, key is ${bcrypt}`);
 });
