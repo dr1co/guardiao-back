@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.3 (Ubuntu 16.3-1.pgdg22.04+1)
--- Dumped by pg_dump version 16.3 (Ubuntu 16.3-1.pgdg22.04+1)
+-- Dumped from database version 16.3
+-- Dumped by pg_dump version 16.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -262,9 +262,9 @@ ALTER SEQUENCE public.device_id_seq OWNED BY public.device.id;
 
 CREATE TABLE public."user" (
     id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    email character varying(60) NOT NULL,
-    password character varying(255) NOT NULL,
+    name character varying(50) NOT NULL,
+    email character varying(40) NOT NULL,
+    password character varying(1000) NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now(),
     "updatedAt" timestamp without time zone DEFAULT now()
 );
@@ -423,7 +423,7 @@ SELECT pg_catalog.setval('public.device_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_id_seq', 16, true);
 
 
 --
