@@ -1,6 +1,8 @@
 import express, {Request, Response} from "express";
 import cors from "cors";
 
+import connection from "../database/postgres";
+
 const app = express();
 
 app.use((req, res, next) => {
