@@ -1,3 +1,4 @@
+--- arquivo desnecessário 
 CREATE DATABASE "guardiao_dev";
 
 CREATE TABLE "user" (

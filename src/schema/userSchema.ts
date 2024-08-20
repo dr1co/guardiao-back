@@ -4,6 +4,7 @@
 //   "confirmPassword"
 // ); 
 
+// faz validação
 import joi from 'joi';
 
 export const registerUserSchema = joi.object({

@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.3
--- Dumped by pg_dump version 16.3
+-- Dumped from database version 16.3 (Ubuntu 16.3-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.3 (Ubuntu 16.3-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -152,10 +152,10 @@ ALTER SEQUENCE public.alert_id_seq OWNED BY public.alert.id;
 CREATE TABLE public.child (
     id integer NOT NULL,
     name character varying(20) NOT NULL,
-    age integer NOT NULL,
     "profileStatus" boolean,
     "createdAt" timestamp without time zone DEFAULT now(),
-    "updatedAt" timestamp without time zone DEFAULT now()
+    "updatedAt" timestamp without time zone DEFAULT now(),
+    dob date
 );
 
 
@@ -262,9 +262,9 @@ ALTER SEQUENCE public.device_id_seq OWNED BY public.device.id;
 
 CREATE TABLE public."user" (
     id integer NOT NULL,
-    name character varying(50) NOT NULL,
-    email character varying(40) NOT NULL,
-    password character varying(1000) NOT NULL,
+    name character varying(20) NOT NULL,
+    email character varying(60) NOT NULL,
+    password character varying(255) NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now(),
     "updatedAt" timestamp without time zone DEFAULT now()
 );
@@ -356,7 +356,7 @@ COPY public.alert (id, "childId", type, message, content, "createdAt") FROM stdi
 -- Data for Name: child; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.child (id, name, age, "profileStatus", "createdAt", "updatedAt") FROM stdin;
+COPY public.child (id, name, "profileStatus", "createdAt", "updatedAt", dob) FROM stdin;
 \.
 
 
@@ -423,7 +423,7 @@ SELECT pg_catalog.setval('public.device_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 16, true);
+SELECT pg_catalog.setval('public.user_id_seq', 1, false);
 
 
 --

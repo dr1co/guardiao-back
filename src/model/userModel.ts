@@ -6,18 +6,20 @@ interface RegisterUserInterface {
   password: string;
 }
 
+// read
 async function findUserByEmail(email: string) {
   const result = await connection.query(
     `
     SELECT * FROM "user"
-    WHERE email = $1
-  `,
+    WHERE email = $1 
+  `, // placeholder evita SQL Injection
     [email]
   );
 
   return result;
 }
 
+// create
 async function registerNewUser(user: RegisterUserInterface) {
   await connection.query(
     `

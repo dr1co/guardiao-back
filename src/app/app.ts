@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import UserRouter from "../view/userView";
+import ChildRouter from "../view/childView";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cors());
 
+// app usa a rota
 app.use(UserRouter);
+app.use(ChildRouter);
 
 export default app;
