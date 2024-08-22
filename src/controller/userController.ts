@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { hash } from "bcrypt";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-
 import userModel from "../model/userModel";
 import tokenController from "./tokenController";
+import deleteUser from "../model/userModel";
 
 dotenv.config();
 const bcryptSync = Number(process.env.BCRYPT) | 8;
@@ -55,7 +55,22 @@ export async function validateLogin(req: Request, res: Response, next: NextFunct
 
     const token = tokenController.generateToken(user);
 
-    res.status(200).send({token});
+    res.status(200).send({ token });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
+
+export async function validateDeleteUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user = Number(res.locals.user.id); // pega id do token
+
+  try {
+    await userModel.deleteUser(user);
+    res.status(200).send({ message: "Conta de usuário deletada! " });
   } catch (err) {
     res.status(500).send(err);
   }

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 
 import childModel from "../model/childModel";
+import deleteChildById from "../model/childModel";
 
 dotenv.config(); // configurando variáveis de ambiente
 
@@ -32,4 +33,47 @@ export async function validateRegistration(
   } catch (err) { // mensagem quando há erro de conexão (500 - Internal Server Error)
     return res.status(500).send(err);
   }
+}
+
+export async function childInformation(
+  req: Request,
+  res: Response,
+  next: NextFunction // passa para próxima função da rota
+) {
+  try {
+    const user = res.locals.user;
+    const child = await childModel.findChildByUserId(user);
+    res.status(200).send(child);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+}
+
+export async function childAlert(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const child = Number(req.params.id); // pega parâmetro da rota
+    const alert = await childModel.findAlertByChildId(child);
+    res.status(200).send(alert);
+  } catch(err) {
+    return res.status(500).send(err);
+  }
+}
+
+export async function deleteChild(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const child = Number(req.params.id);
+    await childModel.deleteChildById(child);
+    res.status(200).send({ message: "Criança deletada com sucesso!" });
+  } catch(err) {
+    return res.status(500).send(err);
+  }
+  
 }
