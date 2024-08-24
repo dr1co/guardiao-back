@@ -25,7 +25,7 @@ async function registerNewChild(child: RegisterChildInterface) {
   );
 }
 
-async function findChildByUserId(id: number) {
+async function findChildInformationByUserId(id: number) {
   const result = await connection.query(
     `
     SELECT child.*, alert.* 
@@ -95,10 +95,20 @@ async function deleteChildById(id: number) {
   }
 }
 
-export default{
+async function findChildActivityById(id: number) {
+  const result = await connection.query(
+    `SELECT * FROM "activity"
+    WHERE childId = $1`,
+    [id]
+  );
+  return result.rows;
+}
+
+export default {
   findChildByName,
   registerNewChild,
-  findChildByUserId,
+  findChildInformationByUserId,
   findAlertByChildId,
-  deleteChildById
+  deleteChildById,
+  findChildActivityById
 };

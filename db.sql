@@ -63,7 +63,7 @@ CREATE TABLE "activity" (
   "type" activity_type NOT NULL,
   "message" VARCHAR(255),
   "content" BYTEA,
-  "time" TIMESTAMP DEFAULT NOW() NOT NULL
+  "time" TIMESTAMP DEFAULT NOW() NOT NULL -- Tempo que a criança ficou na atividade
 );
 
 CREATE TYPE os_type AS ENUM (
@@ -78,4 +78,21 @@ CREATE TABLE "device" (
   "childId" INTEGER NOT NULL REFERENCES "child"("id"),
   "os" os_type NOT NULL,
   "status" BOOLEAN
+);
+
+
+CREATE TYPE content_type AS ENUM (
+  'Vídeo',
+  'Podcast',
+  'Livro',
+  'Artigo'
+);
+
+CREATE TABLE "content" (
+  "id" SERIAL PRIMARY KEY,
+  "title" VARCHAR(255) NOT NULL,
+  "cover_url" VARCHAR(255),
+  "content_url" TEXT NOT NULL,
+  "type" content_type NOT NULL,
+  "content_time" TIME
 );

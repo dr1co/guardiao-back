@@ -52,6 +52,20 @@ CREATE TYPE public.alert_type AS ENUM (
 ALTER TYPE public.alert_type OWNER TO postgres;
 
 --
+-- Name: content_type; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.content_type AS ENUM (
+    'Vídeo',
+    'Podcast',
+    'Livro',
+    'Artigo'
+);
+
+
+ALTER TYPE public.content_type OWNER TO postgres;
+
+--
 -- Name: os_type; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -79,7 +93,8 @@ CREATE TABLE public.activity (
     type public.activity_type NOT NULL,
     message character varying(255),
     content bytea,
-    "time" timestamp without time zone DEFAULT now() NOT NULL
+    startofactivity timestamp without time zone NOT NULL,
+    endofactivity timestamp without time zone NOT NULL
 );
 
 
@@ -221,6 +236,44 @@ ALTER SEQUENCE public.connection_id_seq OWNED BY public.connection.id;
 
 
 --
+-- Name: content; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.content (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    cover_url character varying(255),
+    content_url text NOT NULL,
+    type public.content_type NOT NULL,
+    content_time time without time zone
+);
+
+
+ALTER TABLE public.content OWNER TO postgres;
+
+--
+-- Name: content_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.content_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.content_id_seq OWNER TO postgres;
+
+--
+-- Name: content_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.content_id_seq OWNED BY public.content.id;
+
+
+--
 -- Name: device; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -323,6 +376,13 @@ ALTER TABLE ONLY public.connection ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
+-- Name: content id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.content ALTER COLUMN id SET DEFAULT nextval('public.content_id_seq'::regclass);
+
+
+--
 -- Name: device id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -340,7 +400,7 @@ ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_
 -- Data for Name: activity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.activity (id, "childId", type, message, content, "time") FROM stdin;
+COPY public.activity (id, "childId", type, message, content, startofactivity, endofactivity) FROM stdin;
 \.
 
 
@@ -357,6 +417,7 @@ COPY public.alert (id, "childId", type, message, content, "createdAt") FROM stdi
 --
 
 COPY public.child (id, name, "profileStatus", "createdAt", "updatedAt", dob) FROM stdin;
+1	Drico	\N	2024-08-19 11:09:35.280235	2024-08-19 11:09:35.280235	2001-10-30
 \.
 
 
@@ -365,6 +426,14 @@ COPY public.child (id, name, "profileStatus", "createdAt", "updatedAt", dob) FRO
 --
 
 COPY public.connection (id, "childId", "userId", "connectionStatus", "createdAt") FROM stdin;
+\.
+
+
+--
+-- Data for Name: content; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.content (id, title, cover_url, content_url, type, content_time) FROM stdin;
 \.
 
 
@@ -381,6 +450,8 @@ COPY public.device (id, "childId", os, status) FROM stdin;
 --
 
 COPY public."user" (id, name, email, password, "createdAt", "updatedAt") FROM stdin;
+1	temp	drico@email.com	$2b$10$v2jDhsO2m5qYDpF8HABDge75i4D.7U/.6l8eH/XZdhZAMJSv/v4WO	2024-08-20 08:21:19.418389	2024-08-20 08:21:19.418389
+2	temp	dri@gmail.com	$2b$10$Qm9LyhkppOIHlybr7ujde.gJiVqE/fePgas8DDl/rsln1fQ7fr.56	2024-08-20 12:17:38.932823	2024-08-20 12:17:38.932823
 \.
 
 
@@ -402,7 +473,7 @@ SELECT pg_catalog.setval('public.alert_id_seq', 1, false);
 -- Name: child_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.child_id_seq', 1, false);
+SELECT pg_catalog.setval('public.child_id_seq', 1, true);
 
 
 --
@@ -410,6 +481,13 @@ SELECT pg_catalog.setval('public.child_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.connection_id_seq', 1, false);
+
+
+--
+-- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.content_id_seq', 1, false);
 
 
 --
@@ -423,7 +501,7 @@ SELECT pg_catalog.setval('public.device_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_id_seq', 2, true);
 
 
 --
@@ -456,6 +534,14 @@ ALTER TABLE ONLY public.child
 
 ALTER TABLE ONLY public.connection
     ADD CONSTRAINT connection_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: content content_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.content
+    ADD CONSTRAINT content_pkey PRIMARY KEY (id);
 
 
 --

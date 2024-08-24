@@ -38,5 +38,7 @@ UserRouter.delete( // usa id do token
   verifyToken,
   validateDeleteUser
 
+
+  
 )
 export default UserRouter;

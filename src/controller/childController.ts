@@ -42,7 +42,7 @@ export async function childInformation(
 ) {
   try {
     const user = res.locals.user;
-    const child = await childModel.findChildByUserId(user);
+    const child = await childModel.findChildInformationByUserId(user);
     res.status(200).send(child);
   } catch (err) {
     return res.status(500).send(err);
@@ -77,3 +77,19 @@ export async function deleteChild(
   }
   
 }
+
+export async function childActivity(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const child = Number(req.params.id);
+    const activity = await childModel.findChildActivityById(child);
+    res.status(200).send(activity);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+}
+
+;
