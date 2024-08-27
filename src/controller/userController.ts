@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import userModel from "../model/userModel";
 import tokenController from "./tokenController";
 import deleteUser from "../model/userModel";
+import { createCheckSchema } from "express-validator/lib/middlewares/schema";
 
 dotenv.config();
 const bcryptSync = Number(process.env.BCRYPT) | 8;
@@ -71,6 +72,28 @@ export async function validateDeleteUser(
   try {
     await userModel.deleteUser(user);
     res.status(200).send({ message: "Conta de usuário deletada! " });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
+
+export async function userInformation(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const userId = Number(req.params.id); // pegar pelo id do token futuramente
+
+  if (isNaN(userId) || userId <= 0) {
+    return res.status(400).send({ message: "ID inválido!"} );
+  }
+ 
+  try {
+    const user = await userModel.findUserById(userId);
+    if (!user) {
+      return res.status(404).send({ message: "Usuário não encontrado!"});
+    }
+    res.status(200).send(user);
   } catch (err) {
     res.status(500).send(err);
   }

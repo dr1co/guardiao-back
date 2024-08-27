@@ -4,6 +4,7 @@ import UserRouter from "../view/userView";
 import ChildRouter from "../view/childView";
 import AlertRouter from "../view/alertView";
 import ContentRouter from "../view/contentView";
+import ActivityRouter from "../view/activityView";
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use(UserRouter);
 app.use(ChildRouter);
 app.use(ContentRouter);
 app.use(AlertRouter);
+app.use(ActivityRouter)
 
 export default app;
