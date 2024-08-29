@@ -1,3 +1,5 @@
+// configuração e inicialização de um servidor em Node.js
+
 import dotenv from "dotenv";
 
 import app from "./app/app";
