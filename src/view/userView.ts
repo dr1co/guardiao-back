@@ -14,13 +14,7 @@ const UserRouter = express.Router();
 UserRouter.post(
   "/user/register",
   validateSchema(registerUserSchema),
-  async (req, res, next) => {
-    try {
-      const user = await validateRegistration(req.body, res, next);
-    } catch (error) {
-      next(error);
-    } 
-  }
+  validateRegistration
 );
 
 

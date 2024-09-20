@@ -26,11 +26,9 @@ export async function validateRegistration(
 
     const hashedPassword = await hash(body.password, bcryptSync);
 
-    console.log(hashedPassword);
     await userModel.registerNewUser({
       email: body.email,
-      password: hashedPassword,
-      name: "temp", // nome é alterado depois
+      password: hashedPassword
     });
 
     res.status(201).send({ message: "Usuário criado com sucesso!" });
@@ -85,13 +83,13 @@ export async function userInformation(
   const userId = Number(req.params.id); // pegar pelo id do token futuramente
 
   if (isNaN(userId) || userId <= 0) {
-    return res.status(400).send({ message: "ID inválido!"} );
+    return res.status(400).send({ message: "ID inválido!" });
   }
- 
+
   try {
     const user = await userModel.findUserById(userId);
     if (!user) {
-      return res.status(404).send({ message: "Usuário não encontrado!"});
+      return res.status(404).send({ message: "Usuário não encontrado!" });
     }
     res.status(200).send(user);
   } catch (err) {

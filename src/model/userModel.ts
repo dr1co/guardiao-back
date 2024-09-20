@@ -1,7 +1,6 @@
 import connection from "../database/postgres";
 
 interface RegisterUserInterface {
-  name: string;
   email: string;
   password: string;
 }
@@ -35,9 +34,9 @@ async function registerNewUser(user: RegisterUserInterface) {
   await connection.query(
     `
     INSERT INTO "user" ("name", "email", "password")
-    VALUES ($1, $2, $3)
+    VALUES ('temp', $1, $2)
   `,
-    [user.name, user.email, user.password]
+    [user.email, user.password]
   );
 }
 
