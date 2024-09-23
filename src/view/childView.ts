@@ -10,7 +10,7 @@ const ChildRouter = express.Router();
 
 ChildRouter.post(
   "/child/register",
-  verifyToken,
+  //verifyToken,
   validateSchema(registerChildSchema),
   validateRegistration,
 );

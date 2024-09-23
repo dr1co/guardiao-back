@@ -18,7 +18,7 @@ async function findChildByName(name: string) {
 
 async function registerNewChild(child: RegisterChildInterface) {
   await connection.query(
-    `INSERT INTO "child" ("name", "dob")
+    `INSERT INTO "child" (name, dob)
      VALUES ($1, $2)
     `, 
     [child.name, child.dob]
