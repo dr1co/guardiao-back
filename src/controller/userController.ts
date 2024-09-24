@@ -96,3 +96,23 @@ export async function userInformation(
     res.status(500).send(err);
   }
 }
+
+export async function validateForgotPassword(
+  req: Request,
+  res: Response, 
+  next: NextFunction
+) {
+  const userEmail = req.params.email;
+
+  try {
+    const user = await userModel.findUserByEmail(userEmail);
+
+    if (!user) {
+      return res.status(404).send( {message: "Usuário não encontrado!"} )
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+  
+}
