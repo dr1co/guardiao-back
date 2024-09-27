@@ -8,7 +8,6 @@ import { loginUserSchema } from "../schema/userSchema";
 import verifyToken from "../middleware/jwtMIddleware";
 import { validateDeleteUser } from "../controller/userController";
 import { userInformation } from "../controller/userController";
-import { validateForgotPassword } from "../controller/userController";
 
 const UserRouter = express.Router();
 
@@ -43,7 +42,7 @@ UserRouter.delete( // usa id do token
 UserRouter.post(
   "/user/forgot-password",
   validateSchema(forgotPasswordSchema),
-  validateForgotPassword
+  //validateForgotPassword
   // lógica de recuperação de senha
   
 )

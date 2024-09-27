@@ -102,13 +102,21 @@ async function deleteUser(id: number) {
     await connection.query('ROLLBACK');
     throw err;
   }
-
 }
+
+async function updateUserPassword(id: number, newPassword: string) {
+  await connection.query(
+    `UPDATE "user"
+    SET "password" = $1
+    WHERE "id" = $2`,
+    [newPassword, id]
+  )};
 
 export default {
   findUserByEmail,
   findUserById,
   registerNewUser,
-  deleteUser
+  deleteUser,
+  updateUserPassword
 };
 
