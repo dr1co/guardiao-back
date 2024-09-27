@@ -55,7 +55,7 @@ export async function validateForgotPassword(req: Request, res: Response, next: 
   }
 }
 
-export async function resetPasswordSchema(req: Request, res: Response) {
+export async function resetPassword(req: Request, res: Response) {
   const token = req.query.token;
   const newPassword = req.body.newPassword; // no data (front-end) deve ter mesmo nome
 

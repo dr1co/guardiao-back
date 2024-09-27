@@ -3,12 +3,12 @@ import express from "express";
 import validateSchema from "../controller/schemaController";
 import { validateRegistration } from "../controller/userController";
 import { validateLogin } from "../controller/userController";
-import { forgotPasswordSchema, registerUserSchema } from "../schema/userSchema";
+import { forgotPasswordSchema, registerUserSchema, resetPasswordSchema } from "../schema/userSchema";
 import { loginUserSchema } from "../schema/userSchema";
 import verifyToken from "../middleware/jwtMIddleware";
 import { validateDeleteUser } from "../controller/userController";
 import { userInformation } from "../controller/userController";
-
+import { validateForgotPassword, resetPassword } from "../controller/password-reset.controller";
 const UserRouter = express.Router();
 
 UserRouter.post(
@@ -42,9 +42,13 @@ UserRouter.delete( // usa id do token
 UserRouter.post(
   "/user/forgot-password",
   validateSchema(forgotPasswordSchema),
-  //validateForgotPassword
-  // lógica de recuperação de senha
-  
+  validateForgotPassword
+)
+
+UserRouter.put(
+  "/user/reset-password",
+  validateSchema(resetPasswordSchema),
+  resetPassword
 )
 
 export default UserRouter;
